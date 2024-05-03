@@ -54,3 +54,7 @@
 3. pip install django
 4. django-admin startproject <project_name>
 5. Open the project with your IDE
+
+
+
+
