@@ -17,6 +17,7 @@
             <th scope="col">Email</th>
             <th scope="col">Address</th>
             <th scope="col">Classroom</th>
+            <th scope="col"> Action</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,12 @@
                     {% else%}
                     -
                     {%endif%}
+                </td>
+                <td>
+                    <a href="{% url 'details_students' student.id %}" class ="btn btn-primary"> details</a>
+                    <a href="{% url 'delete_student' student.id %}" class="btn btn-danger">Delete</a> 
+                </td>
+                
             </tr>
         {% endfor %}
         </tbody>
