@@ -11,8 +11,8 @@ Student details
         <br>
         <div class="row">
             <div class ="col-md-4"> 
-                {% if student.student.profile.profile_picture %}
-                <img src="{{student.student.profile.profile_picture.url}}">
+                {% if student.studentprofile.profile_picture %}
+                <img src="{{student.studentprofile.profile_picture.url}}" style ="height:100 px; width: 100 px; background-size:cover;" alt="profile_picture" >
                 {%else%}
                 <img src = "{% static 'crud/default.png' %}" style ="height:300 px; width: 300 px" alt="profile_picture">
                 {% endif %}

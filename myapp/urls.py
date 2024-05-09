@@ -9,4 +9,5 @@ urlpatterns = [
     path("using-bootstrap/", using_bootstrap, name="u_boots"),
     path("", root_page, name="root_page"),
     path("", home),
+    
 ]
