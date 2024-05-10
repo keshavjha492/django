@@ -1,0 +1,45 @@
+
+persons = Person.objects.all()
+Person.objects.values('name', 'age')
+Person.objects.all()[:10]
+Person.objects.all()[5:10]
+Person.objects.filter(age__gt=18)
+Person.objects.filter(age__gte=18)
+Person.objects.filter(age__lt=18)
+Person.objects.filter(age__lte=18)
+Person.objects.exclude(age=18)
+Person.objects.filter(age__range=(10, 20))
+Person.objects.filter(name__icontains='A')
+Person.objects.filter(name__contains='A')
+Person.objects.filter(name__istartswith='A')
+Person.objects.filter(name__startswith='A')
+Person.objects.filter(name__iendswith='A')
+Person.objects.filter(name__endswith='A')
+Person.objects.filter(id__in=[1, 2])
+Person.objects.filter(gender='male', age__gt=25)
+
+from django.db.models import Q
+Person.objects.filter(Q(gender='male') | Q(age__gt=25))
+
+Person.objects.filter(age__isnull=True)
+Person.objects.filter(age__isnull=False)
+Person.objects.order_by('age')
+Person.objects.order_by('-age')
+
+
+from django.db.models import Min
+Person.objects.all().aggregate(Min('age'))
+
+from django.db.models import Max
+Person.objects.all().aggregate(Max('age'))
+
+from django.db.models import Avg
+Person.objects.all().aggregate(Avg('age'))
+
+from django.db.models import Sum
+Person.objects.all().aggregate(Sum('age'))
+
+Person.objects.count()
+Book.objects.select_related('publisher').get(id=1)
+publisher = Publisher.objects.prefetch_related('book_set').get(id=1)
+publisher.book_set.all()
