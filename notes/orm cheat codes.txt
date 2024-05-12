@@ -43,3 +43,5 @@ Person.objects.count()
 Book.objects.select_related('publisher').get(id=1)
 publisher = Publisher.objects.prefetch_related('book_set').get(id=1)
 publisher.book_set.all()
+
+

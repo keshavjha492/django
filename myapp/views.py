@@ -50,3 +50,6 @@ def using_bootstrap(request):
         {"name": "Hary", "age": 27, "email": "jon@email.com", "address": "KTM"},
     ]
     return render(request, template_name="myapp/using_bs.html", context={"students": students})
+
+
+

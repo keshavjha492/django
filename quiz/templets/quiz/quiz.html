@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ quiz.title }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% for question in quiz.questions.all %}
+      <h2>{{ question.text }}</h2>
+      {% for choice in question.choices.all %}
+        <div>
+          <input type="radio" id="question-{{ question.id }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" name="question-{{ question.id }}" value="{{ choice.text }}">
+          <label for="question-{{ question.id }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">{{ choice.text }}</label>
+        </div>
+      {% endfor %}
+    {% endfor %}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
