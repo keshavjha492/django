@@ -13,6 +13,7 @@ def quiz_detail_view(request, pk):
 def take_quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = quiz.questions.all()
+    
     if request.method == 'POST':
         # Process the user's answers
         answers = request.POST.getlist('answer')
