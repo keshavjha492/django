@@ -1,0 +1,18 @@
+{% extends 'commons/layouts/base.html' %}
+
+{% block content %}
+  <h1>{{ quiz.title }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% for question in questions %}
+      <p>{{ question.text }}</p>
+      <ul>
+        <li><input type="radio" name="answer" value="A"> {{ question.choice_a }}</li>
+        <li><input type="radio" name="answer" value="B"> {{ question.choice_b }}</li>
+        <li><input type="radio" name="answer" value="C"> {{ question.choice_c }}</li>
+        <li><input type="radio" name="answer" value="D"> {{ question.choice_d }}</li>
+      </ul>
+    {% endfor %}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

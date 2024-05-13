@@ -1,18 +1,24 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Quiz, Question, AttemptRecord, UserQuizAttempt
 
-def quiz_home(request):
-    return HttpResponse("Quiz Home")
+def quiz_list_view(request):
+    quizzes = Quiz.objects.all()
+    return render(request, 'quizzes/list.html', {'quizzes': quizzes})
 
+def quiz_detail_view(request, pk):
+    quiz = Quiz.objects.get(pk=pk)
+    questions = quiz.questions.all()
+    return render(request, 'quizzes/detail.html', {'quiz': quiz, 'questions': questions})
 
-def quiz_view(request, quiz_id):
-    quiz = Quiz.objects.get(id=quiz_id)
+def take_quiz_view(request, pk):
+    quiz = Quiz.objects.get(pk=pk)
+    questions = quiz.questions.all()
     if request.method == 'POST':
-        score = 0
-        for question in quiz.questions.all():
-            answer = request.POST[f'question-{question.id}']
-            if answer == question.correct_answer:
-                score += 1
-        return render(request, template_name="quiz/result.html", context={'quiz': quiz, 'score': score})
-    else:
-        return render(request, template_name="quiz/result.html", context={'quiz': quiz})
+        # Process the user's answers
+        answers = request.POST.getlist('answer')
+        # Create an AttemptRecord for each question
+        for i, question in enumerate(questions):
+            answer = answers[i]
+            AttemptRecord.objects.create(attempt=UserQuizAttempt.objects.create(user=request.user, quiz=quiz), question=question, answer=answer)
+        return render(request, 'quizzes/results.html', {'quiz': quiz})
+    return render(request, 'quizzes/take.html', {'quiz': quiz, 'questions': questions})

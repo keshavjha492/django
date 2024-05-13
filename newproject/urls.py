@@ -8,7 +8,10 @@ urlpatterns = [
     path("commons/", include('commons.urls')),
     path("crud/", include('crud.urls')),
     path("accounts/",include("accounts.urls")),
+    path("quiz/",include("quiz.urls")),
     path('',include("myapp.urls")),
+    path('classbased/',include("classbased.urls", namespace="classbased")),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

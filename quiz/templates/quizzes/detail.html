@@ -1,0 +1,11 @@
+{% extends 'commons/layouts/base.html' %}
+
+{% block content %}
+  <h1>{{ quiz.title }}</h1>
+  <ul>
+    {% for question in questions %}
+      <li>{{ question.text }}</li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'take_quiz' quiz.pk %}">Take the quiz!</a></p>
+{% endblock %}
