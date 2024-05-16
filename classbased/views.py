@@ -125,9 +125,31 @@ class StudentCreateView(CreateView):
         return super().form_invalid(form)
 
 class StudentDeleteView(DeleteView):
-    pass
+    queryset = Student.objects.all()
+    template_name = "classbased/student_delete.html"
+    success_url = reverse_lazy("classbased:student")
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            messages.success(request, "Student deleted successfully")
+            return self.form_valid(form)
+        else:
+            messages.error(request, "Something went wrong !")
+            return self.form_invalid(form)
 
 class StudentDetailView(DetailView):
     queryset = Student.objects.all()
     template_name = "classbased/student_detail.html"
     context_object_name="student"
+    
+class StudentUpdateView(UpdateView):
+    queryset = Student.objects.all()
+    template_name = "classbased/student_update.html"
+    form_class = StudentModelForm
+    context_object_name = "student"
+    success_url = reverse_lazy("classbased:student")
+    
+
+    

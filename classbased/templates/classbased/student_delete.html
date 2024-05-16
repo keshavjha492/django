@@ -1,0 +1,18 @@
+{% extends "commons/layouts/base.html" %}
+{% block title %}
+    Student Delete
+{% endblock%}
+{% block content%}
+    {% include 'classbased/includes/nav.html'%}
+    <br>
+    <div class ="container">
+    <h2> Student Delete</h2>
+    <h3> Are you sure you want to Delete {{object.name}}  ?</h3>
+    <br>
+        <form method ="post">
+        {% csrf_token%}
+        <button type = "Submit" class = "btn btn-danger"> Delete </button>
+        </form>
+    </div>
+    
+{% endblock%}
