@@ -1,38 +1,35 @@
-{% extends "commons/layouts/base.html"%}
-{% block title%}Classroom{%endblock%}
+{% extends "commons/layouts/base.html"%} {% block title%}Classroom{%endblock%}
+{%block content %} {% include 'classbased/includes/nav.html'%}
+<br />
+<div class="container">
+  <form method="post">
+    {% csrf_token%} {{form}}<br />
 
-{%block content %}
-    {% include 'classbased/includes/nav.html'%}
-    <br>
-    <div class ="container">
-    <form method = "post">
-        {% csrf_token%}
-        {{form}}<br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <br />
+  <h2>Classroom</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in classrooms %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ c.name }}</td>
+        <td>
+          <a href="{% url 'classbased:classroom_update' c.id %}" class="btn btn-primary">Update</a>
+          <a href="{% url 'classbased:classroom_delete' c.id %}" class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-        <button type = "submit" class="btn btn-primary"> Submit</button>
-    </form><br>
-        <h2> Classroom </h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for class in object_list %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ class.name }}</td>
-                    <td>
-                        <a href="#" class="btn btn-primary">Update</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-{% endblock%}
-
+  {% endblock%}
+</div>

@@ -1,9 +1,12 @@
 {% extends 'commons/layouts/base.html' %}
 {% block content %}
+<div class= "container">
   <h1>Quizzes</h1>
   <ul>
     {% for quiz in quizzes %}
       <li><a href="{% url 'quiz_detail' quiz.pk %}">{{ quiz.title }}</a></li>
     {% endfor %}
   </ul>
+  </div>
+  
 {% endblock %}

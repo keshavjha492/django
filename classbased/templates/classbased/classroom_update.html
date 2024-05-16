@@ -1,0 +1,17 @@
+{% extends "commons/layouts/base.html" %}
+{% block title %}
+    Classroom Update
+{% endblock%}
+{% block content%}
+    {% include 'classbased/includes/nav.html'%}
+    <br>
+    <h2> classrooms Update</h2>
+    <div class = "container">
+        <form method = "post">
+        {%csrf_token%}
+        {{form}}
+        <br>
+            <button type = "submit"> Submit</button>
+        </form>
+    </div>
+{%endblock%}

@@ -19,10 +19,15 @@ def take_quiz_view(request, pk):
         answers = request.POST.getlist('answer')
         # Create an AttemptRecord for each question
         for i, question in enumerate(questions):
+            answer = request.POST.get(question.id)
             if i < len(answers):
                 answer = answers[i]
                 AttemptRecord.objects.create(attempt=UserQuizAttempt.objects.create(user=request.user, quiz=quiz), question=question, answer=answer)
             else:
                 break
         return render(request, 'quizzes/results.html', {'quiz': quiz})
-    return render(request, 'quizzes/take.html', {'quiz': quiz, 'questions': questions})
+    else:
+        return render(request, 'quizzes/take.html', {'quiz': quiz, 'questions': questions})
+    
+    
+    

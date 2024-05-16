@@ -1,11 +1,12 @@
 {% extends 'commons/layouts/base.html' %}
-
 {% block content %}
   <h1>Results for {{ quiz.title }}</h1>
   <p>You scored {{ score }} out of {{ questions.count }}!</p>
   <ul>
     {% for attempt in attempts %}
       <li>{{ attempt.question.text }}: {{ attempt.answer }}</li>
+
+      <li> {{ take.html}}</li>
     {% endfor %}
   </ul>
 {% endblock %}
