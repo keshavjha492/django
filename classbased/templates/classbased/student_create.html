@@ -1,0 +1,21 @@
+{% extends 'commons/layouts/base.html'%}
+
+{% block title %}
+Create student
+{% endblock%}
+{% block content %}
+{% include 'classbased/includes/nav.html' %}
+
+<div class="container">
+    <form method = "post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <br>
+        <button type = 'submit' class="btn btn-success"> Submit</button>
+        <a href="3" class = "btn btn-primary">Cancel</a>
+      </form>
+</div>
+    
+
+
+{% endblock %}
