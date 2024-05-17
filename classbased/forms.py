@@ -12,6 +12,15 @@ class ClassRoomModelForm(forms.ModelForm):
 class StudentModelForm(forms.ModelForm):
     phone_number = forms.CharField(max_length = 14)
     bio = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}))
+    profile_picture = forms.ImageField(required=False)
     class Meta:
         model = Student
         fields = "__all__"
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+            
+    
+        
