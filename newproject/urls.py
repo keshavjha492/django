@@ -11,6 +11,7 @@ urlpatterns = [
     path("quiz/",include("quiz.urls")),
     path('',include("myapp.urls")),
     path('classbased/',include("classbased.urls", namespace="classbased")),
+    path('api/',include("api.urls", namespace="api")),
     
 ]
 if settings.DEBUG:
