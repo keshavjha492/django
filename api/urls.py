@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import StudentDetailView, StudentView, ClassRoomView, ClassRoomUsingSerializerDetailView
+from .views import StudentDetailView, StudentView, ClassRoomView, ClassRoomUsingSerializerDetailView, ClassRoomListUsingSerializerView, StudentUsingSerializerView, StudentUsingModelSerializerView
 app_name="api"
 
 urlpatterns = [
@@ -13,6 +13,13 @@ urlpatterns = [
 
 using_serializer_path= [
     path("classroom-using-serializer/<int:id>/",ClassRoomUsingSerializerDetailView.as_view()),
+    path("using-serializer/classroom/",ClassRoomListUsingSerializerView.as_view()),
+    path("using-serializer/student/",StudentUsingSerializerView.as_view()),
+    
 ]
 
-urlpatterns += using_serializer_path
+using_model_path = [
+    path("using-model-serializer/student/",StudentUsingModelSerializerView.as_view()),
+]
+
+urlpatterns += using_serializer_path + using_model_path
