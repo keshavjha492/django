@@ -10,9 +10,23 @@ class StudentSerializer(serializers.Serializer):
     age = serializers.IntegerField()
     address = serializers.CharField(max_length=100)
     email = serializers.EmailField()
-    
+
+
+class ClassRoomModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassRoom
+        fields = ["id","name"]
 class StudentModelSerializer(serializers.ModelSerializer):
+    # classroom = ClassRoomModelSerializer()
     class Meta:
         model = Student
-        fields = ["id","name","age","address","email"]
+        fields = ["id","name","age","address","email", "classroom"]
+        
+    def get_fields(self):
+        fields = super().get_fields()
+        request = self.context.get("request")
+        if request and request.method == "GET":
+            fields["classroom"] = ClassRoomModelSerializer()
+            
+        return fields
     

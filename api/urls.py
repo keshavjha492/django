@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import StudentDetailView, StudentView, ClassRoomView, ClassRoomUsingSerializerDetailView, ClassRoomListUsingSerializerView, StudentUsingSerializerView, StudentUsingModelSerializerView
+from .views import StudentDetailView, StudentView, ClassRoomView, ClassRoomUsingSerializerDetailView, ClassRoomListUsingSerializerView, StudentUsingSerializerView, StudentUsingModelSerializerView, ClassRoomGenericListView, ClassRoomGenericCreateView, ClassRoomGenericView, ClassRoomGenericUpdateView, ClassRoomGenericDetailView, ClassRoomGenericDeleteView
 app_name="api"
 
 urlpatterns = [
@@ -22,4 +22,13 @@ using_model_path = [
     path("using-model-serializer/student/",StudentUsingModelSerializerView.as_view()),
 ]
 
-urlpatterns += using_serializer_path + using_model_path
+generic_urls = [
+    path("generic-classroom/list",ClassRoomGenericListView.as_view()),
+    path("generic-classroom/Create",ClassRoomGenericCreateView.as_view()),
+    path("generic-classroom/",ClassRoomGenericView.as_view()),
+    path("generic-classroom/update/<int:pk>/",ClassRoomGenericUpdateView.as_view()),
+    path("generic-classroom/Details/<int:pk>/",ClassRoomGenericDetailView.as_view()),
+    path("generic-classroom/delete/<int:pk>/",ClassRoomGenericDeleteView.as_view()),
+]
+
+urlpatterns += using_serializer_path + using_model_path + generic_urls
