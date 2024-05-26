@@ -1,0 +1,11 @@
+types of authentication
+
+basic 
+session
+token  
+JWT(json web token)
+=> Factors affecting the creation of JWT
+    current time
+    secret key
+    Username Field(Username, phone, email)
+    Encryption Algorithm

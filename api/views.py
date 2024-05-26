@@ -1,8 +1,17 @@
 from rest_framework.views import APIView
+from .permission import IsSuperAdminUser
 from crud.models import Student, ClassRoom
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, ListCreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, ListCreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import ClassRoomSerializer, StudentSerializer, StudentModelSerializer, ClassRoomModelSerializer
 
 
@@ -219,3 +228,48 @@ class ClassRoomGenericDetailView(RetrieveAPIView):
 class ClassRoomGenericDeleteView(DestroyAPIView):
     queryset = ClassRoom.objects.all()
     serializer_class = ClassRoomModelSerializer
+    
+class StudentUpdateRetriveDistroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentModelSerializer
+    
+class ClassRoomViewSet(ModelViewSet):
+    serializer_class = ClassRoomSerializer
+    queryset = ClassRoom.objects.all()
+    
+    
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        if self.request.method in ["PUT", "PATCH", "DELETE"]:
+            return [IsSuperAdminUser()]
+        if self.request.method == "POST":
+            return [(IsAdminUser | IsSuperAdminUser)()]
+        return[IsAuthenticated()]
+    
+class StudentViewSet(ModelViewSet):
+    permission_classes = [AllowAny]
+    filter_backends = [SearchFilter,DjangoFilterBackend]
+    filterset_fields =["classroom__name"]
+    search_fields = ["name", "email", "address",]
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all().order_by('-id')
+    
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        if self.request.method in ["PUT", "PATCH", "DELETE"]:
+            return [IsSuperAdminUser()]
+        if self.request.method == "POST":
+            return [(IsAdminUser | IsSuperAdminUser)()]
+        return[IsAuthenticated()]
+
+class LoginApiView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get.serializer(data = request.data)
+        serializer.is_valid(raise_exception = True)
+        user = serializer.validated_data["user"]
+        Token.objects.get_or_create(user = user).delete()
+        token, created = Token.objects.get_or_create(user = user)
+        return Response({"token" : token.key, "is_staff" : user.is_staff,"is_superuser" : user.is_superuser, "is_active" : user.is_active})
+        

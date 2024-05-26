@@ -6,6 +6,8 @@ from crud.models import ClassRoom, Student, StudentProfile
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib import messages
 from .forms import ClassRoomForm, ClassRoomModelForm, StudentModelForm
+from django.views import View
+import requests
 
 
 
@@ -180,3 +182,14 @@ class StudentUpdateView(UpdateView):
             sp.profile_picture = pp
             sp.save()
         return redirect("classbased:student_detail", student.id)
+    
+class StudentConsumingView(View):
+    def get(self, *args, **kwargs):
+        url = "http://localhost:8000/api/viewset/student/"
+        response = requests.get(url)
+        if response.status_code in [200, "200"]:
+            response = response.json()
+            students = response if type(response) == list else response["results"]
+            return render(self.request, template_name="classbased/student_consuming_api.html",
+                          context={"students": students})
+        return redirect("root_page")
